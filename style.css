@@ -34,6 +34,14 @@ button:hover{
 	background-color: red;
 }
 
-#output, #result{
+#output, #result, #round{
 	margin-top: 20px;
+}
+
+#start_btn{
+	background-color: red;
+}
+
+#new:hover{
+	background-color: green;
 }
