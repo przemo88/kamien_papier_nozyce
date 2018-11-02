@@ -1,3 +1,7 @@
+*{
+	font-size: 20px;
+}
+
 body {
 	padding: 10px;
 	text-align: center;
@@ -9,7 +13,6 @@ button {
     width: 200px;
     height: 200px;
     
-	font-size: 20px;
     font-weight: 600;
     text-align: center;
     white-space: nowrap;
@@ -24,19 +27,13 @@ button {
 
     cursor: pointer;
 	outline: 0!important;
-	text-decoration: none;
-    user-select: none;
-	
-	&:hover {
-		color: #02ac46;
-		background-color: blue;
-	}
+    
 }
 
 button:hover{
 	background-color: red;
 }
 
-#output{
-	margin-top: 50px;
+#output, #result{
+	margin-top: 20px;
 }
