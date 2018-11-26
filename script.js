@@ -78,7 +78,7 @@
 					result.innerHTML += "</br>" + pc_score + " - " + user_score;
 				}
 
-				else if(user == 'paper' && pc == 'scissors' || user == 'stone' && pc == 'paper' || user == 'scissors' && pc == 'stone'  && pc_score < 5 || user_score < 5)
+				else if(user == 'paper' && pc == 'scissors' || user == 'stone' && pc == 'paper' || user == 'scissors' && pc == 'stone')
 				{
 					output.innerHTML = "</br>YOU LOSE: you played " +  user + ", computer played " +  pc;
 					pc_score++;
@@ -86,9 +86,11 @@
 					result.innerHTML += "</br>" + pc_score + " - " + user_score;
 				}
 
-				else if(user == 'paper' && pc == 'paper' || user == 'scissors' && pc == 'scissors' || user == 'stone' && pc == 'stone'  && pc_score < 5 || user_score < 5)
+				else if(user == 'paper' && pc == 'paper' || user == 'scissors' && pc == 'scissors' || user == 'stone' && pc == 'stone')
 				{
 					output.innerHTML = "</br>DRAW: you played " +  user + ", computer played " +  pc;
+					result.innerHTML = "PC : USER"
+					result.innerHTML += "</br>" + pc_score + " - " + user_score;
 				}
 			
 			}	
