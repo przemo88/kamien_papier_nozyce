@@ -1,3 +1,12 @@
+		var params =
+		{
+			pc_score : 0,
+			user_score: 0,
+			counter: 0,
+			game_over: false
+		}
+
+
 		var paper = document.getElementById('paper');
 		var stone = document.getElementById('stone');
 		var scissors = document.getElementById('scissors');
@@ -6,22 +15,20 @@
 		var game = document.getElementById('start_btn');
 		var round = document.getElementById('round');
 
-		var pc_score = 0, user_score = 0, counter = 0, game_over = false;
-
 		paper.disabled = true;
 		stone.disabled = true;
 		scissors.disabled = true;
 
 		result.innerHTML = "PC : USER"
-		result.innerHTML += "</br>" + pc_score + " - " + user_score;
+		result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 
 
 
 
 		function new_game()
 		{	
-			pc_score = 0;
-			user_score = 0;
+			params.pc_score = 0;
+			params.user_score = 0;
 			var counter = prompt("Set number of round");
 		
 			round.innerHTML = "NUMBER OF ROUND TO WIN : " + counter;
@@ -52,15 +59,15 @@
 		{	
 			var user = '';
 
-			if(choice == 1)
+			if(choice == "paper")
 			{
 				user = 'paper';
 			}
-			else if(choice == 2)
+			else if(choice == "stone")
 			{
 				user= 'stone';
 			}
-			else if(choice == 3)
+			else if(choice == "scissors")
 			{
 				user = 'scissors';
 			}
@@ -68,86 +75,152 @@
 			 lottery();
 			
 
-			 if(pc_score < counter &&  user_score < counter)
+			 if(params.pc_score < params.counter &&  params.user_score < params.counter)
 			 {
 				 	if(user == 'paper' && pc == 'stone' || user == 'stone' && pc == 'scissors' || user == 'scissors' && pc == 'paper')
 				{
 					output.innerHTML = "</br>YOU WON: you played " +  user + ", computer played " +  pc; 
-					user_score++;
+					params.user_score++;
 					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + pc_score + " - " + user_score;
+					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 				}
 
 				else if(user == 'paper' && pc == 'scissors' || user == 'stone' && pc == 'paper' || user == 'scissors' && pc == 'stone')
 				{
 					output.innerHTML = "</br>YOU LOSE: you played " +  user + ", computer played " +  pc;
-					pc_score++;
+					params.pc_score++;
 					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + pc_score + " - " + user_score;
+					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 				}
 
-				else if(user == 'paper' && pc == 'paper' || user == 'scissors' && pc == 'scissors' || user == 'stone' && pc == 'stone')
+				else
 				{
 					output.innerHTML = "</br>DRAW: you played " +  user + ", computer played " +  pc;
 					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + pc_score + " - " + user_score;
+					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 				}
 			
 			}	
 
-			else if(user_score == counter)
+			else if(params.user_score == params.counter)
 			{
-				output.innerHTML = "YOU WON THE ENTIRE GAME!!!";
-				game_over = true;
+				showModal();
+				hideModal();
+				//output.innerHTML = "YOU WON THE ENTIRE GAME!!!";
+				params.game_over = true;
 			}
 
-			else if(pc_score == counter)
+			else if(params.pc_score == params.counter)
 			{
-				output.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
-				game_over = true;
+				showModal();
+				hideModal();
+				//output.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
+				params.game_over = true;
 			}
 
 		}
 
-		paper.addEventListener('click', function(){
-			if(game_over == false)
-			{
-				playerMove(1);	
-			}
-			else
-			{
-				output.innerHTML = "Game over, please press the new game button!";
-			}
-			
-		});
+		var pm = document.querySelectorAll(".player-move");
 
-		stone.addEventListener('click', function(){
-			if(game_over == false)
-			{
-				playerMove(2);	
-			}
-			else
-			{
-				output.innerHTML = "Game over, please press the new game button!";
-			}
-		});
+				document.addEventListener('click', function(){
+				var name = event.target.getAttribute("data-move");
+				
+				
 
-		scissors.addEventListener('click', function(){
-			if(game_over == false)
-			{
-				playerMove(3);	
-			}
-			else
-			{
-				output.innerHTML = "Game over, please press the new game button!";
-			}
-		});
+				if(params.game_over == false)
+				{
+					playerMove(name);
+				}
+				else
+				{
+					output.innerHTML = "Game over, please press the new game button!";
+				}
+
+				
+			})
 		
-
 		game.addEventListener('click', function(){
-				counter = new_game();
-				game_over = false;
+				params.counter = new_game();
+				params.game_over = false;
 				paper.disabled = false;
 				stone.disabled = false;
 				scissors.disabled = false;
 		});
+
+		var test = document.getElementById('modal-overlay');
+		var close = document.querySelectorAll(".modal .close");
+		var modals = document.querySelectorAll(".modal");
+
+		
+
+
+	function  showModal(){
+	
+		/*document.querySelector('#modal-overlay').classList.add('show');*/
+		
+		document.querySelector(".modal").classList.add('show');
+		document.querySelector(".modal").classList.add('overlay');
+		
+	};
+
+	
+	function hideModal()
+	{
+		
+		var close = document.getElementById("close");
+		close.addEventListener("click", function(){
+			document.querySelector(".modal").classList.remove('show');
+		});
+		}
+
+	
+		
+
+	var closeButtons = document.querySelectorAll('.modal .close');
+	
+	for(var i = 0; i < closeButtons.length; i++){
+		closeButtons[i].addEventListener('click', hideModal); 
+	}
+	
+	
+	// Mimo, że obecnie mamy tylko jeden link, stosujemy kod dla wielu linków. W ten sposób nie będzie trzeba go zmieniać, kiedy zechcemy mieć więcej linków lub guzików otwierających modale
+	
+	/*var modalLinks = document.querySelectorAll('.show-modal');
+	
+	for(var i = 0; i < modalLinks.length; i++){
+		modalLinks[i].addEventListener('click', showModal);
+	}
+	*/
+	// Dodajemy też funkcję zamykającą modal, oraz przywiązujemy ją do kliknięć na elemencie z klasą "close". 
+	/*body.addEventListener('click', function()
+	{
+		var hideModal = function(event){
+		event.preventDefault();
+		document.querySelector('#modal-overlay').classList.remove('show');
+	};
+	
+	})
+	
+	var closeButtons = document.querySelectorAll('.modal .close');
+	
+	for(var i = 0; i < closeButtons.length; i++){
+		closeButtons[i].addEventListener('click', hideModal);
+	}
+	
+	// Dobrą praktyką jest również umożliwianie zamykania modala poprzez kliknięcie w overlay. 
+	
+	/*document.querySelector('#modal-overlay').addEventListener('click', hideModal);*/
+	
+	// Musimy jednak pamiętać, aby zablokować propagację kliknięć z samego modala - inaczej każde kliknięcie wewnątrz modala również zamykałoby go. 
+	/*
+	var modals = document.querySelectorAll('.modal');
+	
+	for(var i = 0; i < modals.length; i++){
+		modals[i].addEventListener('click', function(event){
+			event.stopPropagation();
+		});
+	}*/
+
+	
+
+	

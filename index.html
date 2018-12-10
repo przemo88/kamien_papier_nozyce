@@ -2,19 +2,28 @@
 <html>
 <head>
 	<title>Papier kamień nożyce</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 
-	<button id="paper">PAPER</button>
-	<button id="stone">STONE</button>
-	<button id="scissors">SCISSORS</button>
+	<button id="paper" data-move="paper" class="player-move">PAPER</button>
+	<button id="stone" data-move="stone" class="player-move">STONE</button>
+	<button id="scissors" data-move="scissors" class="player-move">SCISSORS</button>
 	<button id="start_btn">NEW GAME</button>
 
 	
 	<div id="result"></div>
 	<div id="round"></div>
 	<div id="output"></div>
+
+	<div class="modal" id="modal-one">
+		<a href="#" id="close">x</a>
+		<header>Modal one</header>
+		<div class="content">
+			<p>Dolor sit amet!</p>
+		</div>
+	</div>
+
 
 	<script type="text/javascript" src="script.js"></script>
 		
