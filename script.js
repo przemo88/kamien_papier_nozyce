@@ -3,7 +3,13 @@
 			pc_score : 0,
 			user_score: 0,
 			counter: 0,
-			game_over: false
+			game_over: false,
+
+			progress:
+			[
+				
+
+			]
 		}
 
 
@@ -13,7 +19,7 @@
 		var output = document.getElementById('output');
 		var result = document.getElementById('result');
 		var game = document.getElementById('start_btn');
-		var round = document.getElementById('round');
+		var round = document.getElementById('round'); 
 
 		paper.disabled = true;
 		stone.disabled = true;
@@ -23,7 +29,7 @@
 		result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 
 
-
+		/*alert(params.progress.nr_round = 1);*/
 
 		function new_game()
 		{	
@@ -74,6 +80,7 @@
 			
 			 lottery();
 			
+			var msg = document.getElementById("message");
 
 			 if(params.pc_score < params.counter &&  params.user_score < params.counter)
 			 {
@@ -102,11 +109,14 @@
 			
 			}	
 
+			
+
 			else if(params.user_score == params.counter)
 			{
 				showModal();
 				hideModal();
 				//output.innerHTML = "YOU WON THE ENTIRE GAME!!!";
+				message.innerHTML = "YOU WON THE ENTIRE GAME!!!";
 				params.game_over = true;
 			}
 
@@ -115,6 +125,7 @@
 				showModal();
 				hideModal();
 				//output.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
+				message.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
 				params.game_over = true;
 			}
 
@@ -139,7 +150,7 @@
 				
 			})
 		
-		game.addEventListener('click', function(){
+		game.addEventListener('click', function(){ 
 				params.counter = new_game();
 				params.game_over = false;
 				paper.disabled = false;
@@ -147,9 +158,8 @@
 				scissors.disabled = false;
 		});
 
-		var test = document.getElementById('modal-overlay');
+		
 		var close = document.querySelectorAll(".modal .close");
-		var modals = document.querySelectorAll(".modal");
 
 		
 
@@ -160,6 +170,7 @@
 		
 		document.querySelector(".modal").classList.add('show');
 		document.querySelector(".modal").classList.add('overlay');
+		document.querySelector("*").classList.add('bg');
 		
 	};
 
@@ -170,56 +181,9 @@
 		var close = document.getElementById("close");
 		close.addEventListener("click", function(){
 			document.querySelector(".modal").classList.remove('show');
+			document.querySelector("*").classList.remove('bg');
 		});
-		}
-
-	
-		
-
-	var closeButtons = document.querySelectorAll('.modal .close');
-	
-	for(var i = 0; i < closeButtons.length; i++){
-		closeButtons[i].addEventListener('click', hideModal); 
 	}
-	
-	
-	// Mimo, że obecnie mamy tylko jeden link, stosujemy kod dla wielu linków. W ten sposób nie będzie trzeba go zmieniać, kiedy zechcemy mieć więcej linków lub guzików otwierających modale
-	
-	/*var modalLinks = document.querySelectorAll('.show-modal');
-	
-	for(var i = 0; i < modalLinks.length; i++){
-		modalLinks[i].addEventListener('click', showModal);
-	}
-	*/
-	// Dodajemy też funkcję zamykającą modal, oraz przywiązujemy ją do kliknięć na elemencie z klasą "close". 
-	/*body.addEventListener('click', function()
-	{
-		var hideModal = function(event){
-		event.preventDefault();
-		document.querySelector('#modal-overlay').classList.remove('show');
-	};
-	
-	})
-	
-	var closeButtons = document.querySelectorAll('.modal .close');
-	
-	for(var i = 0; i < closeButtons.length; i++){
-		closeButtons[i].addEventListener('click', hideModal);
-	}
-	
-	// Dobrą praktyką jest również umożliwianie zamykania modala poprzez kliknięcie w overlay. 
-	
-	/*document.querySelector('#modal-overlay').addEventListener('click', hideModal);*/
-	
-	// Musimy jednak pamiętać, aby zablokować propagację kliknięć z samego modala - inaczej każde kliknięcie wewnątrz modala również zamykałoby go. 
-	/*
-	var modals = document.querySelectorAll('.modal');
-	
-	for(var i = 0; i < modals.length; i++){
-		modals[i].addEventListener('click', function(event){
-			event.stopPropagation();
-		});
-	}*/
 
 	
 
