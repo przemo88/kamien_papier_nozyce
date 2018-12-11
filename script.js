@@ -2,14 +2,9 @@
 		{
 			pc_score : 0,
 			user_score: 0,
-			counter: 0,
+			counter: 1,
 			game_over: false,
 
-			progress:
-			[
-				
-
-			]
 		}
 
 
@@ -35,12 +30,23 @@
 		{	
 			params.pc_score = 0;
 			params.user_score = 0;
-			var counter = prompt("Set number of round");
+			params.counter = prompt("Set number of round");
 		
-			round.innerHTML = "NUMBER OF ROUND TO WIN : " + counter;
-			return counter;
+			round.innerHTML = "NUMBER OF ROUND TO WIN : " + params.counter;
+			params.counter = parseInt(params.counter);
+			return params.counter;
 		}
 
+		function end_game(text)
+		{
+				showModal();
+				hideModal();
+				message.innerHTML = text;
+				message.innerHTML += "</br>USER: " + params.progress.userPlayed + "</br>";
+				message.innerHTML += "PC: " + params.progress.pcPlayed + "</br>";
+				message.innerHTML += "WINNER: " + params.progress.winner;
+				params.game_over = true;
+		}
 
 			
 		function lottery()
@@ -49,94 +55,102 @@
 			
 			 if(ran == 1)
 			{
-				return pc = 'paper';
+				return 'paper';
 			}
 			else if(ran == 2)
 			{
-				return pc = 'stone';
+				return 'stone';
 			}
 			else if(ran == 3)
 			{
-				return  pc ='scissors';
+				return 'scissors';
 			}
+		}
+
+		function roundStatus(text,user, pc, rd)
+		{
+			/*output.innerHTML = text + user + " computer played " + pc;
+			pc_score = pc_score;
+			user_score = user_score;	
+			score = score + 1;
+			rd = roundWinner;*/
+			output.innerHTML = "</br>" + text  + "you played " +  user + ", computer played " +  pc; 
+			result.innerHTML = "PC : USER"
+			result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
+			roundWinner = rd;
 		}
 
 		function playerMove(choice)
 		{	
-			var user = '';
+			var user = choice;
 
-			if(choice == "paper")
-			{
-				user = 'paper';
-			}
-			else if(choice == "stone")
-			{
-				user= 'stone';
-			}
-			else if(choice == "scissors")
-			{
-				user = 'scissors';
-			}
-			
-			 lottery();
+	
+			pc = lottery();
 			
 			var msg = document.getElementById("message");
 
 			 if(params.pc_score < params.counter &&  params.user_score < params.counter)
 			 {
-				 	if(user == 'paper' && pc == 'stone' || user == 'stone' && pc == 'scissors' || user == 'scissors' && pc == 'paper')
-				{
-					output.innerHTML = "</br>YOU WON: you played " +  user + ", computer played " +  pc; 
+
+			 	var roundWinner;
+
+				if(user == 'paper' && pc == 'stone' || user == 'stone' && pc == 'scissors' || user == 'scissors' && pc == 'paper')
+				{	
 					params.user_score++;
-					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
+					roundWinner = "Player";
+					roundStatus("YOU WIN: ", user, pc,roundWinner);
+
 				}
 
 				else if(user == 'paper' && pc == 'scissors' || user == 'stone' && pc == 'paper' || user == 'scissors' && pc == 'stone')
 				{
-					output.innerHTML = "</br>YOU LOSE: you played " +  user + ", computer played " +  pc;
+					/*output.innerHTML = "</br>YOU LOSE: you played " +  user + ", computer played " +  pc;
 					params.pc_score++;
 					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
+					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;*/
+					params.pc_score++;
+					roundWinner = "PC";
+					roundStatus("YOU LOSE: ", user, pc, roundWinner);
 				}
 
-				else
+				else if(user == pc)
 				{
-					output.innerHTML = "</br>DRAW: you played " +  user + ", computer played " +  pc;
+					/*output.innerHTML = "</br>DRAW: you played " +  user + ", computer played " +  pc;
 					result.innerHTML = "PC : USER"
-					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
+					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;*/
+					roundWinner = "DRAW";
+					roundStatus("</br> DRAW:  ", user, pc, roundWinner);
 				}
-			
+				
+				params.progress =
+				{
+				userPlayed : user,
+				pcPlayed : pc,
+				winner : roundWinner
+				}
 			}	
 
-			
+		
 
 			else if(params.user_score == params.counter)
 			{
-				showModal();
-				hideModal();
-				//output.innerHTML = "YOU WON THE ENTIRE GAME!!!";
-				message.innerHTML = "YOU WON THE ENTIRE GAME!!!";
-				params.game_over = true;
+				end_game("YOU WON THE ENTIRE GAME!!!");
 			}
 
 			else if(params.pc_score == params.counter)
 			{
-				showModal();
-				hideModal();
-				//output.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
-				message.innerHTML = "YOU LOSE THE ENTIRE GAME!!!";
-				params.game_over = true;
+				end_game("YOU LOSE THE ENTIRE GAME!!!");
 			}
 
 		}
 
 		var pm = document.querySelectorAll(".player-move");
 
-				document.addEventListener('click', function(){
-				var name = event.target.getAttribute("data-move");
 				
-				
+		for(var a = 0; a < pm.length; a++)
+		{
+			pm[a].addEventListener('click', function(){
+			var name = event.target.getAttribute("data-move");
 
 				if(params.game_over == false)
 				{
@@ -149,6 +163,8 @@
 
 				
 			})
+		}
+				
 		
 		game.addEventListener('click', function(){ 
 				params.counter = new_game();
@@ -180,8 +196,8 @@
 		
 		var close = document.getElementById("close");
 		close.addEventListener("click", function(){
-			document.querySelector(".modal").classList.remove('show');
-			document.querySelector("*").classList.remove('bg');
+		document.querySelector(".modal").classList.remove('show');
+		document.querySelector("*").classList.remove('bg');
 		});
 	}
 
