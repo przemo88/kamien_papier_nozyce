@@ -4,6 +4,8 @@
 			user_score: 0,
 			counter: 1,
 			game_over: false,
+			round_number: 0,
+			progress: []
 
 		}
 
@@ -28,6 +30,7 @@
 
 		function new_game()
 		{	
+			params.progress = [];
 			params.pc_score = 0;
 			params.user_score = 0;
 			params.counter = prompt("Set number of round");
@@ -42,9 +45,20 @@
 				showModal();
 				hideModal();
 				message.innerHTML = text;
-				message.innerHTML += "</br>USER: " + params.progress.userPlayed + "</br>";
-				message.innerHTML += "PC: " + params.progress.pcPlayed + "</br>";
-				message.innerHTML += "WINNER: " + params.progress.winner;
+				
+
+				
+					for(var a = 0; a < params.round_number; a++)
+				{
+					message.innerHTML += "</br>" + a + " ";
+					message.innerHTML += "User choice: " + params.progress[a]['user'];
+					message.innerHTML += " PC choice: " + params.progress[a]['pc'];
+					message.innerHTML += " Winner " + params.progress[a]['winner'] + "</br>";
+				}
+				
+
+				
+
 				params.game_over = true;
 		}
 
@@ -96,6 +110,7 @@
 
 				if(user == 'paper' && pc == 'stone' || user == 'stone' && pc == 'scissors' || user == 'scissors' && pc == 'paper')
 				{	
+					params.round_number++;
 					params.user_score++;
 					roundWinner = "Player";
 					roundStatus("YOU WIN: ", user, pc,roundWinner);
@@ -108,6 +123,7 @@
 					params.pc_score++;
 					result.innerHTML = "PC : USER"
 					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;*/
+					params.round_number++;
 					params.pc_score++;
 					roundWinner = "PC";
 					roundStatus("YOU LOSE: ", user, pc, roundWinner);
@@ -118,19 +134,16 @@
 					/*output.innerHTML = "</br>DRAW: you played " +  user + ", computer played " +  pc;
 					result.innerHTML = "PC : USER"
 					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;*/
+					params.round_number++;
 					roundWinner = "DRAW";
 					roundStatus("</br> DRAW:  ", user, pc, roundWinner);
 				}
 				
-				params.progress =
-				{
-				userPlayed : user,
-				pcPlayed : pc,
-				winner : roundWinner
-				}
+				params.progress.push({'user': user, 'pc': pc, 'winner': roundWinner});
+				console.log(params.progress);
 			}	
 
-		
+			
 
 			else if(params.user_score == params.counter)
 			{
@@ -162,7 +175,7 @@
 				}
 
 				
-			})
+			});
 		}
 				
 		
@@ -180,23 +193,21 @@
 		
 
 
-	function  showModal(){
-	
-		/*document.querySelector('#modal-overlay').classList.add('show');*/
-		
+	function  showModal()
+	{
 		document.querySelector(".modal").classList.add('show');
-		document.querySelector(".modal").classList.add('overlay');
+		document.querySelector('.overlay').classList.add('show');
 		document.querySelector("*").classList.add('bg');
 		
-	};
+	}
 
 	
 	function hideModal()
-	{
-		
+	{	
 		var close = document.getElementById("close");
 		close.addEventListener("click", function(){
 		document.querySelector(".modal").classList.remove('show');
+		document.querySelector('.overlay').classList.remove('show');
 		document.querySelector("*").classList.remove('bg');
 		});
 	}

@@ -9,7 +9,7 @@
     "build": "npm-run-all build:* test",
     "build:clean": "rimraf css/*",
     "watch": "npm-run-all build -p watch:*",
-    "watch:browsersync": "browser-sync start --server --files css/*.css *.html *.js"
+    "watch:browsersync": "browser-sync start --server --files *.css *.html *.js"
   },
   "repository": {
     "type": "git",
