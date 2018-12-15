@@ -33,6 +33,8 @@
 			params.progress = [];
 			params.pc_score = 0;
 			params.user_score = 0;
+			params.round_number = 0;
+			params.game_over = false;
 			params.counter = prompt("Set number of round");
 		
 			round.innerHTML = "NUMBER OF ROUND TO WIN : " + params.counter;
@@ -44,21 +46,7 @@
 		{
 				showModal();
 				hideModal();
-				message.innerHTML = text;
-				
-
-				
-					for(var a = 0; a < params.round_number; a++)
-				{
-					message.innerHTML += "</br>" + a + " ";
-					message.innerHTML += "User choice: " + params.progress[a]['user'];
-					message.innerHTML += " PC choice: " + params.progress[a]['pc'];
-					message.innerHTML += " Winner " + params.progress[a]['winner'] + "</br>";
-				}
-				
-
-				
-
+				message.innerHTML += text;
 				params.game_over = true;
 		}
 
@@ -81,17 +69,22 @@
 			}
 		}
 
-		function roundStatus(text,user, pc, rd)
+		function roundStatus(text,user, pc, rd,round_number)
 		{
-			/*output.innerHTML = text + user + " computer played " + pc;
-			pc_score = pc_score;
-			user_score = user_score;	
-			score = score + 1;
-			rd = roundWinner;*/
 			output.innerHTML = "</br>" + text  + "you played " +  user + ", computer played " +  pc; 
 			result.innerHTML = "PC : USER"
 			result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
 			roundWinner = rd;
+			params.progress['user'] = user;
+			params.progress['pc'] = pc;
+			params.progress['winner'] = roundWinner;
+			message.innerHTML += "Round: " + round_number + " ";
+			message.innerHTML += "Player: " + params.progress['user'] + " ";
+			message.innerHTML += "PC: " + params.progress['pc']  + " ";
+			message.innerHTML += "Winner: " + params.progress['winner']  + " ";
+			message.innerHTML += "</br>" + "PC : USER ";
+			message.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;
+			message.innerHTML += "</br></br>";
 		}
 
 		function playerMove(choice)
@@ -102,7 +95,7 @@
 			pc = lottery();
 			
 			var msg = document.getElementById("message");
-
+			//console.log('przed', params.pc_score, params.user_score);
 			 if(params.pc_score < params.counter &&  params.user_score < params.counter)
 			 {
 
@@ -113,7 +106,8 @@
 					params.round_number++;
 					params.user_score++;
 					roundWinner = "Player";
-					roundStatus("YOU WIN: ", user, pc,roundWinner);
+					roundStatus("YOU WIN: ", user, pc,roundWinner,params.round_number);
+					
 
 				}
 
@@ -126,7 +120,8 @@
 					params.round_number++;
 					params.pc_score++;
 					roundWinner = "PC";
-					roundStatus("YOU LOSE: ", user, pc, roundWinner);
+					roundStatus("YOU LOSE: ", user, pc, roundWinner,params.round_number);
+					
 				}
 
 				else if(user == pc)
@@ -136,16 +131,17 @@
 					result.innerHTML += "</br>" + params.pc_score + " - " + params.user_score;*/
 					params.round_number++;
 					roundWinner = "DRAW";
-					roundStatus("</br> DRAW:  ", user, pc, roundWinner);
+					roundStatus("</br> DRAW:  ", user, pc, roundWinner,params.round_number);
+					
 				}
 				
-				params.progress.push({'user': user, 'pc': pc, 'winner': roundWinner});
-				console.log(params.progress);
+				
+				//console.log(params.progress);
 			}	
 
-			
-
-			else if(params.user_score == params.counter)
+			params.progress.push({'user': user, 'pc': pc, 'winner': roundWinner});
+			//console.log('po', params.pc_score, params.user_score);
+			if(params.user_score == params.counter)
 			{
 				end_game("YOU WON THE ENTIRE GAME!!!");
 			}
@@ -209,6 +205,7 @@
 		document.querySelector(".modal").classList.remove('show');
 		document.querySelector('.overlay').classList.remove('show');
 		document.querySelector("*").classList.remove('bg');
+		message.innerHTML = "";
 		});
 	}
 

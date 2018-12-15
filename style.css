@@ -54,7 +54,7 @@ button:hover{
 
 .overlay{
 	display: none;
-	z-index: 150px;
+	z-index: 100;
 	background-color:  pink;
 }
 
@@ -62,16 +62,25 @@ button:hover{
 .modal {
  display: none; 
  background: green; 
- width: 450px; 
+ width: 650px; 
  position: absolute; 
- margin-top: 200px;
+ margin-top: 25%;
  left: 50%; 
  transform: translate3d(-50%, -50%, 0);
  z-index: 100;
+ text-align: left;
+ font-family: 'Roboto Mono', monospace;
+ color: white;
+ padding-left: 10px;
 }
 
-.message{
+.modal header{
+	text-align: center;
+}
 
+#close{
+	text-align: right;
+	color: white;
 }
 
 .modal.show { display: block; }
